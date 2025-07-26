@@ -137,5 +137,3 @@ dist
 
 /.vscode
 package-lock.json
-backend/*.exe
-backend/*.txt
