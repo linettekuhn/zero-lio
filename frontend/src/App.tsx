@@ -4,6 +4,7 @@ import { logInUser, registerUser, updateUserInfo } from "./api/authentication";
 import { toast, ToastContainer } from "react-toastify";
 import { FirebaseError } from "firebase/app";
 import { useNavigate } from "react-router";
+import { ImEyeBlocked, ImEye } from "react-icons/im";
 
 // map firebase errors to UI error messages
 const firebaseErrorMap: Record<string, string> = {
@@ -24,6 +25,8 @@ function App() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [newUserFlag, setNewUserFlag] = useState(false);
+  const [showPass, setShowPass] = useState(false);
 
   // function to navigate to other pages
   const navigate = useNavigate();
@@ -69,19 +72,63 @@ function App() {
 
   // HTML
   return (
-    <>
-      <form className={styles.userLogin} action="userLogin">
-        <h1>Registro</h1>
-        <div className={styles.name}>
+    <div className={newUserFlag ? styles.userRegister : styles.userLogin}>
+      <div className={styles.logoVertical}>
+        <img src="../icons/zero_icon.png" alt="0" />
+        <h1>LÍO</h1>
+      </div>
+      {newUserFlag ? (
+        <form className={styles.authForm} action="userRegister">
+          <h2>Registro</h2>
+          <div className={styles.name}>
+            <div className={styles.nameWrapper}>
+              <p>Nombre</p>
+              <div className={styles.input}>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  value={name}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                    }
+                  }}
+                />
+              </div>
+            </div>
+            <div className={styles.nameWrapper}>
+              <p>Apellido</p>
+              <div className={styles.input}>
+                <input
+                  type="text"
+                  name="lastName"
+                  id="lastName"
+                  value={lastName}
+                  onChange={(e) => {
+                    setLastName(e.target.value);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                    }
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+          <p>Correo Electrónico</p>
           <div className={styles.input}>
-            <p>Nombre</p>
             <input
               type="text"
-              name="name"
-              id="name"
-              value={name}
+              name="email"
+              id="email"
+              value={email}
               onChange={(e) => {
-                setName(e.target.value);
+                setEmail(e.target.value);
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -90,15 +137,16 @@ function App() {
               }}
             />
           </div>
+          <p>Cédula</p>
           <div className={styles.input}>
-            <p>Apellido</p>
             <input
               type="text"
-              name="lastName"
-              id="lastName"
-              value={lastName}
+              name="cedula"
+              id="cedula"
+              placeholder="001-0000000-1"
+              value={cedula}
               onChange={(e) => {
-                setLastName(e.target.value);
+                setCedula(e.target.value);
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -107,72 +155,113 @@ function App() {
               }}
             />
           </div>
-        </div>
-        <p>Correo Electrónico</p>
-        <input
-          type="text"
-          name="email"
-          id="email"
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-            }
-          }}
-        />
-        <p>Cedula</p>
-        <input
-          type="text"
-          name="cedula"
-          id="cedula"
-          placeholder="001-0000000-1"
-          value={cedula}
-          onChange={(e) => {
-            setCedula(e.target.value);
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-            }
-          }}
-        />
-        <p>Contraseña</p>
-        <input
-          type="password"
-          name="password"
-          id="userPassword"
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-            }
-          }}
-        />
-        <div className={styles.terms}>
-          <input name="terms" type="checkbox" required />
-          <label htmlFor="terms">Acepto todos los terminos y condiciones</label>
-        </div>
-        <div className={styles.buttons}>
-          <button
-            className="button"
-            type="submit"
-            onClick={handleRegisterButton}
-          >
-            Crear Cuenta
-          </button>
+          <p>Contraseña</p>
+          <div className={styles.input}>
+            <input
+              type={showPass ? "text" : "password"}
+              name="password"
+              id="userPassword"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                }
+              }}
+            />
+            <button
+              type="button"
+              className={styles.togglePassBtn}
+              onClick={() => setShowPass((prev) => !prev)}
+            >
+              {showPass ? <ImEyeBlocked /> : <ImEye />}
+            </button>
+          </div>
+          <div className={styles.checkbox}>
+            <input name="terms" type="checkbox" required />
+            <label htmlFor="terms">Acepto los términos y condiciones</label>
+          </div>
+          <div className={styles.buttons}>
+            <button
+              className="button"
+              type="submit"
+              onClick={handleRegisterButton}
+            >
+              Crear Cuenta
+            </button>
+            <a type="submit" onClick={handleLogInButton}>
+              Login
+            </a>
+          </div>
+        </form>
+      ) : (
+        <form className={styles.authForm} action="userLogin">
+          <h2>Login</h2>
+          <div className={styles.flexline}>
+            <span>¿No tienes una cuenta aún?</span>
+            <a onClick={() => setNewUserFlag(true)}>Registrate</a>
+          </div>
+          <div className={styles.flexline}>
+            <span>¿Eres administrador?</span>
+            <a>Dar click aquí</a>
+          </div>
+          <p>Correo Electrónico</p>
+          <div className={styles.input}>
+            <input
+              type="text"
+              name="email"
+              id="email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                }
+              }}
+            />
+          </div>
+          <p>Contraseña</p>
+          <div className={styles.input}>
+            <input
+              type={showPass ? "text" : "password"}
+              name="password"
+              id="userPassword"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                }
+              }}
+            />
+            <button
+              type="button"
+              className={styles.togglePassBtn}
+              onClick={() => setShowPass((prev) => !prev)}
+            >
+              {showPass ? <ImEyeBlocked /> : <ImEye />}
+            </button>
+          </div>
+          <div className={styles.loginOptions}>
+            <div className={styles.checkbox}>
+              <input name="saveLogin" type="checkbox" />
+              <label htmlFor="saveLogin">Guardar login</label>
+            </div>
+            <a>Olvidé mi contraseña</a>
+          </div>
           <button className="button" type="submit" onClick={handleLogInButton}>
             Login
           </button>
-        </div>
-      </form>
+        </form>
+      )}
       <ToastContainer />
-    </>
+    </div>
   );
 }
 
