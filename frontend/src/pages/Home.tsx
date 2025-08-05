@@ -2,6 +2,10 @@ import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { APIProvider, Map, useMap } from "@vis.gl/react-google-maps";
 import Cancha from "../components/Cancha";
+import styles from "./Home.module.css";
+import { IoSearch } from "react-icons/io5";
+import { IoIosHeartEmpty } from "react-icons/io";
+import { IoIosHeart } from "react-icons/io";
 
 export default function Home() {
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
@@ -25,6 +29,10 @@ function SearchComponent() {
   const map = useMap();
   // search results
   const [results, setResults] = useState<google.maps.places.Place[]>([]);
+  // searchbar query
+  const [query, setQuery] = useState("");
+  // saved view flag
+  const [savedView, setSavedView] = useState(true);
 
   // function to search for nearby courts using google maps
   const searchNearbyCourts = async () => {
@@ -65,6 +73,7 @@ function SearchComponent() {
           ],
         };
 
+        // TODO: nominatim
         // call searchNearby request
         try {
           const { Place } = (await google.maps.importLibrary(
@@ -93,18 +102,51 @@ function SearchComponent() {
   };
   return (
     <>
-      <button onClick={searchNearbyCourts}>Buscar canchas</button>
-      <div>
-        <h2>Results:</h2>
-        {results.length > 0 ? (
-          <ul>
-            {results.map((place) => (
-              <Cancha key={place.id} place={place} />
-            ))}
-          </ul>
-        ) : (
-          <p>No se han encontrado canchas.</p>
-        )}
+      <div className={styles.nearbyCourts}>
+        <form className={styles.searchBarWrapper} action="searchBar">
+          <input
+            type="text"
+            name="query"
+            placeholder="Buscar canchas..."
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+            }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+              }
+            }}
+          />
+          <button
+            className={styles.searchBtn}
+            onClick={() => searchNearbyCourts()}
+            type="button"
+          >
+            <IoSearch />
+          </button>
+        </form>
+        <div className={styles.places}>
+          <div className={styles.header}>
+            <h2>Cerca de ti</h2>
+            <button
+              className={styles.savedViewBtn}
+              type="button"
+              onClick={() => setSavedView((prev) => !prev)}
+            >
+              {savedView ? <IoIosHeart /> : <IoIosHeartEmpty />}
+            </button>
+          </div>
+          {results.length > 0 ? (
+            <ul className={styles.resultsList}>
+              {results.map((place) => (
+                <Cancha key={place.id} place={place} />
+              ))}
+            </ul>
+          ) : (
+            <p>No se han encontrado canchas.</p>
+          )}
+        </div>
       </div>
       <ToastContainer />
     </>

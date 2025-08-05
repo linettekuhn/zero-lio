@@ -4,7 +4,10 @@ import styles from "./Canchas.module.css";
 export default function Cancha({ place }: { place: google.maps.places.Place }) {
   return (
     <div className={styles.canchaWrapper}>
-      <img src="" alt="" />
+      <img
+        src="../../public/no-image-available-vector.jpg"
+        alt="Imagen no encontrada"
+      />
       <div className={styles.canchaInfo}>
         <h3 className={styles.name}>{place.displayName}</h3>
         <p className={styles.type}>{place.primaryTypeDisplayName}</p>
