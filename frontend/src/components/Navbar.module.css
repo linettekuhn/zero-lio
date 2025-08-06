@@ -1,3 +1,4 @@
+/* Nav element */
 nav {
   flex: 0 1 0;
   display: flex;
@@ -7,14 +8,13 @@ nav {
   margin: 1rem 2rem;
 }
 
-nav svg {
+/* Back Home Button */
+.backButton svg {
+  color: black;
   font-size: 2.5rem;
 }
 
-nav svg:hover {
-  color: black;
-}
-
+/* Logo (horizontal) */
 .logoHorizontal img {
   height: 100%;
   object-fit: contain;

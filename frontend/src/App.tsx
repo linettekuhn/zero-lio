@@ -123,7 +123,7 @@ function App() {
           <p>Correo Electrónico</p>
           <div className={styles.input}>
             <input
-              type="text"
+              type="email"
               name="email"
               id="email"
               value={email}
@@ -210,7 +210,7 @@ function App() {
           <p>Correo Electrónico</p>
           <div className={styles.input}>
             <input
-              type="text"
+              type="email"
               name="email"
               id="email"
               value={email}
