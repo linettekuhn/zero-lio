@@ -5,6 +5,10 @@ import "./index.css";
 import App from "./App.tsx";
 import Home from "./pages/Home.tsx";
 import RequireAuth from "./RequireAuth.tsx";
+import Reserve from "./pages/Reserve.tsx";
+import Reservations from "./pages/Reservations.tsx";
+import Community from "./pages/Community.tsx";
+import Settings from "./pages/Settings.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -13,6 +17,38 @@ const router = createBrowserRouter([
     element: (
       <RequireAuth>
         <Home />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/reservar",
+    element: (
+      <RequireAuth>
+        <Reserve />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/reservaciones",
+    element: (
+      <RequireAuth>
+        <Reservations />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/comunidad",
+    element: (
+      <RequireAuth>
+        <Community />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/config",
+    element: (
+      <RequireAuth>
+        <Settings />
       </RequireAuth>
     ),
   },

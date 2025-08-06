@@ -6,6 +6,8 @@ import styles from "./Home.module.css";
 import { IoSearch } from "react-icons/io5";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { IoIosHeart } from "react-icons/io";
+import { IoIosMenu } from "react-icons/io";
+import Menu from "../components/Menu";
 
 export default function Home() {
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
@@ -33,6 +35,8 @@ function SearchComponent() {
   const [query, setQuery] = useState("");
   // saved view flag
   const [savedView, setSavedView] = useState(true);
+  // menu open flag
+  const [isMenuOpen, setMenuOpen] = useState(false);
 
   // function to search for nearby courts using google maps
   const searchNearbyCourts = async () => {
@@ -103,29 +107,41 @@ function SearchComponent() {
   return (
     <>
       <div className={styles.nearbyCourts}>
-        <form className={styles.searchBarWrapper} action="searchBar">
-          <input
-            type="text"
-            name="query"
-            placeholder="Buscar canchas..."
-            value={query}
-            onChange={(e) => {
-              setQuery(e.target.value);
-            }}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-              }
-            }}
-          />
-          <button
-            className={styles.searchBtn}
-            onClick={() => searchNearbyCourts()}
-            type="button"
-          >
-            <IoSearch />
-          </button>
-        </form>
+        {isMenuOpen && (
+          <div
+            className={styles.backdrop}
+            onClick={() => setMenuOpen(false)}
+          ></div>
+        )}
+        <div className={styles.searchHeader}>
+          <div className={styles.menu} title="Click to see menu">
+            <IoIosMenu onClick={() => setMenuOpen(!isMenuOpen)} />
+            {isMenuOpen && <Menu />}
+          </div>
+          <form className={styles.searchBarWrapper} action="searchBar">
+            <input
+              type="text"
+              name="query"
+              placeholder="Buscar canchas..."
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                }
+              }}
+            />
+            <button
+              className={styles.searchBtn}
+              onClick={() => searchNearbyCourts()}
+              type="button"
+            >
+              <IoSearch />
+            </button>
+          </form>
+        </div>
         <div className={styles.places}>
           <div className={styles.header}>
             <h2>Cerca de ti</h2>

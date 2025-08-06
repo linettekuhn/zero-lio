@@ -2,12 +2,10 @@ import { IoIosPin } from "react-icons/io";
 import styles from "./Canchas.module.css";
 
 export default function Cancha({ place }: { place: google.maps.places.Place }) {
+  // TODO: correct distance
   return (
     <div className={styles.canchaWrapper}>
-      <img
-        src="../../public/no-image-available-vector.jpg"
-        alt="Imagen no encontrada"
-      />
+      <img src="/no-image-available-vector.jpg" alt="Imagen no encontrada" />
       <div className={styles.canchaInfo}>
         <h3 className={styles.name}>{place.displayName}</h3>
         <p className={styles.type}>{place.primaryTypeDisplayName}</p>

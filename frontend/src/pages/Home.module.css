@@ -1,5 +1,6 @@
 /* Main div */
 .nearbyCourts {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -29,10 +30,35 @@
   font-size: 2.5rem;
 }
 
+/* Searchbar and menu div */
+.searchHeader {
+  flex: 0 1 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Menu */
+.menu svg {
+  font-size: 3rem;
+}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
 /* Search Bar */
 .searchBarWrapper {
   display: flex;
-  flex: 0 1 0;
+  flex-grow: 0;
+  flex-shrink: 0;
+  width: 70%;
   background-color: white;
   border: solid black 2px;
   border-radius: 15px;
