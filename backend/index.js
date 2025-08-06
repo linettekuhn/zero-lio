@@ -17,6 +17,10 @@ app.use(cors());
 // middleware to parse HTML requests and store JSON content in req.body
 app.use(express.json());
 
+// router for handling reservations
+const reservationsRouter = require("./routes/reserve");
+app.use("/api/reservations", reservationsRouter);
+
 app.listen(3000, () => {
   console.log("app listening on port 3000");
 });
