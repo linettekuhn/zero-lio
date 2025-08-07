@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const logger = require("../middleware/logger");
 const authUser = require("../middleware/authUser");
-const database = firebase.firestore();
+const admin = require("firebase-admin");
+const database = admin.firestore();
 
 router.use(logger);
 
@@ -42,7 +43,7 @@ router.post("/store", authUser, async (req, res) => {
     // reservations to update
     reservationsToUpdate.forEach((reservation) => {
       // create document ID
-      const docId = `reservation-${reservation.date}-${reservation.time}`;
+      const docId = `reservation-${reservation.datetime}`;
       // search for document in database
       const doc = reservationsRef.doc(docId);
       // update reservation on that doc
@@ -57,7 +58,10 @@ router.post("/store", authUser, async (req, res) => {
 
     // commit changes in batch to avoid unnecessary api calls
     await batch.commit();
+    res.status(200).json({ message: "Reservations updated successfully." });
   } catch (error) {
     res.status(500).json({ error: "Failed to save or delete reservations." });
   }
 });
+
+module.exports = router;

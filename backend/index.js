@@ -20,6 +20,7 @@ app.use(express.json());
 // router for handling reservations
 const reservationsRouter = require("./routes/reserve");
 app.use("/api/reservations", reservationsRouter);
+console.log("reservations router started");
 
 app.listen(3000, () => {
   console.log("app listening on port 3000");
