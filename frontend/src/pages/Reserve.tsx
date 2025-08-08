@@ -22,6 +22,8 @@ export default function Reserve() {
 
     try {
       await saveReservations([reservation], []);
+      // TODO: SUCCESS MESSAGE
+      toast.success("Reservado!");
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast.error(error.message);

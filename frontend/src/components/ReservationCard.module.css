@@ -1,5 +1,5 @@
 /* Main div */
-.canchaWrapper {
+.reservationWrapper {
   display: flex;
   flex: 1 1 0;
   width: 100%;
@@ -8,8 +8,8 @@
   border-radius: 5px;
 }
 
-/* Text info on court */
-.canchaInfo {
+/* Text info on reservation */
+.reservationInfo {
   flex-shrink: 0;
   flex-grow: 0;
   width: 65%;
@@ -20,12 +20,12 @@
   margin: 1rem 0;
 }
 
-.canchaInfo * {
+.reservationInfo * {
   margin: 0;
 }
 
 /* Info elements */
-img {
+.reservationWrapper img {
   min-width: 0;
   height: auto;
   object-fit: contain;
@@ -36,20 +36,6 @@ img {
   text-wrap: wrap balance;
 }
 
-.distance svg {
-  color: red;
-}
-
-.type {
-  font-style: italic;
-}
-
 .address {
   font-size: 0.8rem;
-}
-
-.distance {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 }

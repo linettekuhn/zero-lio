@@ -1,5 +1,5 @@
 import { IoIosPin } from "react-icons/io";
-import styles from "./Canchas.module.css";
+import styles from "./Cancha.module.css";
 
 export default function Cancha({ place }: { place: google.maps.places.Place }) {
   // TODO: correct distance
