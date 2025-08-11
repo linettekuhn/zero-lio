@@ -10,7 +10,7 @@ export default function Cancha({ place }: { place: Place }) {
         <h3 className={styles.name}>{place.displayName}</h3>
         <p className={styles.address}>{place.formattedAddress}</p>
         <p className={styles.distance}>
-          <IoIosPin /> 3.2 km
+          <IoIosPin /> {(place.distanceMeters / 1000).toFixed(2)} km
         </p>
       </div>
     </div>

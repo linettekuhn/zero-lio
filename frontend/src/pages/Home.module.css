@@ -107,5 +107,12 @@
   gap: 1rem;
 }
 
+/* Leaflet Map */
 .mapContainer {
+  flex: 1;
+  border-radius: 5em;
+}
+.mapContainer div {
+  border-radius: 2em;
+  z-index: 0;
 }

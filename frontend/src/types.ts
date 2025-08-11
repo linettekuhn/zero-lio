@@ -11,4 +11,6 @@ export type Place = {
     lng: number;
   };
   formattedAddress: string;
+  sport?: string;
+  distanceMeters: number;
 };

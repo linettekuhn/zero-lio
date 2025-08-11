@@ -29,7 +29,7 @@ router.get("/reverse-geocode", async (req, res) => {
     const response = await fetch(
       `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&accept-language=es`,
       {
-        headers: { "User-Agent": "ZeroLioApp/1.0 (contact@example.com)" },
+        headers: { "User-Agent": "ZeroLioApp/1.0 (linette.kuhn@gmail.com)" },
         timeout: 10000,
       }
     );
