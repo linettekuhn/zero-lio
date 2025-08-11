@@ -65,3 +65,14 @@
   border: solid rgb(12, 68, 56) 1px;
   border-radius: 0.5rem;
 }
+
+/* Success Message Backdrop */
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(19, 40, 62, 0.5);
+  z-index: 1;
+}

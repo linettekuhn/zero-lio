@@ -1,0 +1,37 @@
+.successWrapper {
+  position: absolute;
+  background-color: white;
+  z-index: 2;
+  width: 80%;
+  place-self: center;
+  border-radius: 2em;
+  padding: 2em 1em;
+}
+
+.successHeader {
+  flex: display;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.successHeader svg {
+  font-size: 6em;
+  color: rgb(56, 180, 112);
+}
+
+.successDetail {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin: 1em 0;
+}
+
+.successDetail svg {
+  font-size: 1.5em;
+  min-width: 10%;
+}
+
+.successDetail p {
+  margin: 0;
+}

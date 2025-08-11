@@ -1,15 +1,18 @@
-import { IoMdCalendar } from "react-icons/io";
 import Navbar from "../components/Navbar";
 import styles from "./Reserve.module.css";
 import { useState } from "react";
 import type { Reservation } from "../types";
 import { saveReservations } from "../api/firestore";
 import { toast, ToastContainer } from "react-toastify";
+import { IoMdCalendar } from "react-icons/io";
+import ReservationSuccess from "../components/ReservationSuccess";
 
 export default function Reserve() {
   const [dateTime, setDateTime] = useState("");
   const [courtType, setCourtType] = useState("");
   const [address, setAddress] = useState("");
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [reservation, setReservation] = useState<Reservation | null>(null);
 
   const handleReserveButton = async () => {
     const formattedDateTime = new Date(dateTime);
@@ -21,9 +24,9 @@ export default function Reserve() {
     };
 
     try {
+      setReservation(reservation);
       await saveReservations([reservation], []);
-      // TODO: SUCCESS MESSAGE
-      toast.success("Reservado!");
+      setShowSuccess(true);
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -33,6 +36,15 @@ export default function Reserve() {
 
   return (
     <div className={styles.reserve}>
+      {showSuccess && (
+        <div
+          className={styles.backdrop}
+          onClick={() => setShowSuccess(false)}
+        ></div>
+      )}
+      {reservation
+        ? showSuccess && <ReservationSuccess reservation={reservation} />
+        : null}
       <Navbar />
       <div className={styles.content}>
         <div className={styles.header}>
