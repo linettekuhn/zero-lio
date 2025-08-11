@@ -22,6 +22,11 @@ const reservationsRouter = require("./routes/reserve");
 app.use("/api/reservations", reservationsRouter);
 console.log("reservations router started");
 
+// router for nominatim
+const nominatimRouter = require("./routes/search");
+app.use("/api/search", nominatimRouter);
+console.log("nominatim router started");
+
 app.listen(3000, () => {
   console.log("app listening on port 3000");
 });

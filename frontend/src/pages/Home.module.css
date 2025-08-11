@@ -13,7 +13,7 @@
   flex: 0 1 0;
   display: flex;
   justify-content: space-between;
-  margin: 0 2rem;
+  margin: 0 4rem 0 1rem;
 }
 
 .header h2 {
@@ -27,6 +27,10 @@
 
 .savedViewBtn {
   color: red;
+  font-size: 2.5rem;
+}
+.mapViewBtn {
+  color: white;
   font-size: 2.5rem;
 }
 
@@ -75,7 +79,8 @@
 }
 
 .searchBtn,
-.savedViewBtn {
+.savedViewBtn,
+.mapViewBtn {
   border: none;
   background-color: rgba(0, 0, 0, 0);
 }
@@ -100,4 +105,7 @@
   flex-direction: column;
   justify-content: space-between;
   gap: 1rem;
+}
+
+.mapContainer {
 }

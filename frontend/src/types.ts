@@ -3,3 +3,12 @@ export type Reservation = {
   courtType: string;
   location?: string;
 };
+export type Place = {
+  id: number;
+  displayName: string;
+  location: {
+    lat: number;
+    lng: number;
+  };
+  formattedAddress: string;
+};
