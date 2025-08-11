@@ -1,8 +1,8 @@
 import Navbar from "../components/Navbar";
 import styles from "./Reserve.module.css";
-import { useState } from "react";
-import type { Reservation } from "../types";
-import { saveReservations } from "../api/firestore";
+import { useEffect, useState } from "react";
+import type { Place, Reservation } from "../types";
+import { fetchSavedCanchas, saveReservations } from "../api/firestore";
 import { toast, ToastContainer } from "react-toastify";
 import { IoMdCalendar } from "react-icons/io";
 import ReservationSuccess from "../components/ReservationSuccess";
@@ -13,6 +13,25 @@ export default function Reserve() {
   const [address, setAddress] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
   const [reservation, setReservation] = useState<Reservation | null>(null);
+  const [savedCanchas, setSavedCanchas] = useState<Place[]>([]);
+
+  useEffect(() => {
+    const loadSavedCanchas = async () => {
+      try {
+        const savedCanchas = await fetchSavedCanchas();
+        setSavedCanchas(savedCanchas);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          toast.error(error.message);
+        }
+      }
+    };
+    loadSavedCanchas();
+  }, []);
+
+  const sports = [
+    ...new Set(savedCanchas.map((cancha: Place) => cancha.sport)),
+  ];
 
   const handleReserveButton = async () => {
     const formattedDateTime = new Date(dateTime);
@@ -49,7 +68,7 @@ export default function Reserve() {
       <div className={styles.content}>
         <div className={styles.header}>
           <IoMdCalendar />
-          <h2>Reservar una cancha</h2>
+          <h2>Reservar una de tus canchas guardadas</h2>
         </div>
         <form
           className={styles.reserveForm}
@@ -82,15 +101,35 @@ export default function Reserve() {
               type="text"
               id="reserve-address"
               value={address}
+              list="address-options"
               onChange={(e) => {
-                setAddress(e.target.value);
+                const selectedAddress = e.target.value;
+                setAddress(selectedAddress);
+
+                const cancha = savedCanchas.find(
+                  (c) => c.formattedAddress === selectedAddress
+                );
+
+                if (cancha && cancha.sport) {
+                  setCourtType(cancha.sport);
+                }
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
                 }
               }}
+              required
             />
+            <datalist id="address-options">
+              {savedCanchas
+                .filter((cancha) =>
+                  courtType ? cancha.sport === courtType : true
+                )
+                .map((cancha) => (
+                  <option key={cancha.id} value={cancha.formattedAddress} />
+                ))}
+            </datalist>
           </label>
 
           <label htmlFor="reserve-cancha">
@@ -102,11 +141,29 @@ export default function Reserve() {
               onChange={(e) => {
                 setCourtType(e.target.value);
               }}
+              required
             >
-              <option>Baloncesto</option>
-              <option>Volleyball</option>
-              <option>Fútbol</option>
-              <option>Béisbol</option>
+              <option value="" disabled>
+                Selecciona una cancha
+              </option>
+              {address
+                ? savedCanchas
+                    .filter((cancha) => cancha.formattedAddress === address)
+                    .map((cancha) =>
+                      cancha.sport ? (
+                        <option key={cancha.id} value={cancha.sport}>
+                          {cancha.sport.charAt(0).toUpperCase() +
+                            cancha.sport.slice(1)}
+                        </option>
+                      ) : null
+                    )
+                : sports.map((sport) => (
+                    <option key={sport}>
+                      {sport
+                        ? sport?.charAt(0).toUpperCase() + sport?.slice(1)
+                        : null}
+                    </option>
+                  ))}
             </select>
           </label>
 

@@ -22,7 +22,7 @@ export default function Menu() {
         </button>
         <button className={styles.menuButton}>
           <IoIosPin />
-          <Link to={"/mapa"}>Ubicaciones</Link>
+          <Link to={"/canchas"}>Ubicaciones</Link>
         </button>
         <button className={styles.menuButton}>
           <IoIosNotifications />
