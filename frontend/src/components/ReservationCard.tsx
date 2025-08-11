@@ -6,7 +6,6 @@ export default function ReservationCard({
 }: {
   reservation: Reservation;
 }) {
-  // TODO: correct image
   const options: Intl.DateTimeFormatOptions = {
     weekday: "long",
     year: "numeric",
@@ -16,7 +15,6 @@ export default function ReservationCard({
 
   return (
     <div className={styles.reservationWrapper}>
-      <img src="/no-image-available-vector.jpg" alt="Imagen no encontrada" />
       <div className={styles.reservationInfo}>
         <h3 className={styles.name}>Cancha de {reservation.courtType}</h3>
         <p className={styles.date}>
