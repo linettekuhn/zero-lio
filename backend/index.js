@@ -27,6 +27,11 @@ const nominatimRouter = require("./routes/search");
 app.use("/api/search", nominatimRouter);
 console.log("nominatim router started");
 
+// router for handling stored canchas
+const canchasRouter = require("./routes/canchas");
+app.use("/api/canchas", canchasRouter);
+console.log("canchas router started");
+
 app.listen(3000, () => {
   console.log("app listening on port 3000");
 });

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
@@ -15,6 +15,7 @@ import { IoIosPin } from "react-icons/io";
 import Menu from "../components/Menu";
 import type { Place } from "../types";
 import { reverseGeocode } from "../api/geocode";
+import { fetchSavedCanchas, saveCanchas } from "../api/firestore";
 
 export default function Home() {
   // search results
@@ -27,6 +28,60 @@ export default function Home() {
   const [isMenuOpen, setMenuOpen] = useState(false);
   // map view flag
   const [isMapView, setIsMapView] = useState(true);
+  // saved canchas
+  const [savedCanchas, setSavedCanchas] = useState<Place[]>([]);
+  // original saved canchas
+  const [originalSavedCanchas, setOriginalSavedCanchas] = useState<Place[]>([]);
+
+  useEffect(() => {
+    const loadSavedCanchas = async () => {
+      try {
+        const savedCanchas = await fetchSavedCanchas();
+        setSavedCanchas(savedCanchas);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          toast.error(error.message);
+        }
+      }
+    };
+    loadSavedCanchas();
+  }, []);
+
+  // function to handle saved canchas changing
+  const handleCanchasChange = async (newCanchas: Place[]) => {
+    setSavedCanchas(newCanchas);
+    try {
+      await saveCanchas(newCanchas, originalSavedCanchas);
+      toast.success("Se han guardado tus cambios!");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    }
+    setOriginalSavedCanchas(newCanchas);
+  };
+
+  // function to handle save button on each cancha
+  const handleCanchaSave = (canchaToSave: Place) => {
+    const isSaved = savedCanchas.some((cancha) => {
+      return cancha.id === canchaToSave.id;
+    });
+
+    if (!isSaved) {
+      const newSavedCanchas = [...savedCanchas, canchaToSave];
+      handleCanchasChange(newSavedCanchas);
+    } else {
+      toast.warn("Ese lugar ya está guardado.");
+    }
+  };
+
+  // function to handle remove button on each cancha
+  const handleCanchaRemove = (canchaToRemove: Place) => {
+    const newSavedCanchas = savedCanchas.filter((cancha) => {
+      return cancha.id !== canchaToRemove.id;
+    });
+    handleCanchasChange(newSavedCanchas);
+  };
 
   // function to search for nearby courts using google maps
   const searchNearbyCourts = async () => {
@@ -67,7 +122,7 @@ export default function Home() {
       const radius = 3000;
 
       // TODO: option to edit maxResults
-      const maxResults = 10;
+      const maxResults = 5;
 
       // create query
       const query = `
@@ -198,24 +253,40 @@ export default function Home() {
           <div className={styles.header}>
             <h2>Cerca de ti</h2>
             <button
-              className={styles.mapViewBtn}
-              type="button"
-              onClick={() => setIsMapView((prev) => !prev)}
-            >
-              {isMapView ? <IoIosList /> : <IoIosPin />}
-            </button>
-            <button
               className={styles.savedViewBtn}
               type="button"
               onClick={() => setSavedView((prev) => !prev)}
             >
               {savedView ? <IoIosHeart /> : <IoIosHeartEmpty />}
             </button>
+            <button
+              className={styles.mapViewBtn}
+              type="button"
+              onClick={() => setIsMapView((prev) => !prev)}
+            >
+              {isMapView ? <IoIosList /> : <IoIosPin />}
+            </button>
           </div>
-          {isMapView ? (
+          {savedView ? (
+            isMapView ? (
+              <MapView results={savedCanchas} />
+            ) : (
+              <ListView
+                canchas={savedCanchas}
+                savedCanchas={savedCanchas}
+                onSave={handleCanchaSave}
+                onRemove={handleCanchaRemove}
+              />
+            )
+          ) : isMapView ? (
             <MapView results={results} />
           ) : (
-            <ListView results={results} />
+            <ListView
+              canchas={results}
+              savedCanchas={savedCanchas}
+              onSave={handleCanchaSave}
+              onRemove={handleCanchaRemove}
+            />
           )}
         </div>
       </div>
@@ -224,14 +295,36 @@ export default function Home() {
   );
 }
 
-function ListView({ results }: { results: Place[] }) {
+function ListView({
+  canchas,
+  savedCanchas,
+  onSave,
+  onRemove,
+}: {
+  canchas: Place[];
+  savedCanchas: Place[];
+  onSave: (recipe: Place) => void;
+  onRemove: (recipe: Place) => void;
+}) {
   return (
     <>
-      {results.length > 0 ? (
+      {canchas.length > 0 ? (
         <ul className={styles.resultsList}>
-          {results.map((place) => (
-            <Cancha key={place.id} place={place} />
-          ))}
+          {canchas.map((place) => {
+            const isSaved = savedCanchas.some((saved: Place) => {
+              return saved.id === place.id;
+            });
+
+            return (
+              <Cancha
+                key={place.id}
+                place={place}
+                isSaved={isSaved}
+                onSave={onSave}
+                onRemove={onRemove}
+              />
+            );
+          })}
         </ul>
       ) : (
         <p>No se han encontrado canchas.</p>

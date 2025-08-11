@@ -1,4 +1,4 @@
-import type { Reservation } from "../types";
+import type { Place, Reservation } from "../types";
 import { getUserId } from "./authentication";
 
 async function handleResponse(response: Response) {
@@ -24,7 +24,7 @@ export async function saveReservations(
   // get userID for api call authorization
   const userID = await getUserId();
   if (!userID) {
-    throw new Error("User not signed in: Cannot save recipes.");
+    throw new Error("User not signed in: Cannot save reservation.");
   }
 
   const reservationsToUpdate = newReservations;
@@ -77,4 +77,63 @@ export async function fetchSavedReservations(): Promise<Reservation[]> {
 
   const reservations: Reservation[] = await response.json();
   return reservations;
+}
+
+export async function saveCanchas(newCanchas: Place[], oldCanchas: Place[]) {
+  // get userID for api call authorization
+  const userID = await getUserId();
+  if (!userID) {
+    throw new Error("User not signed in: Cannot save cancha.");
+  }
+
+  const canchasToUpdate = newCanchas;
+
+  const getDocId = (cancha: Place): string | null => {
+    return `cancha-${cancha.id}`;
+  };
+
+  // compute newIds
+  const newIds = new Set(
+    newCanchas.map(getDocId).filter((id): id is string => !!id)
+  );
+
+  // filter out the old ids
+  const idsToDelete: string[] = oldCanchas
+    .map(getDocId)
+    .filter((id): id is string => !!id)
+    .filter((oldId) => !newIds.has(oldId));
+
+  // call to backend
+  await handleResponse(
+    await fetch("http://localhost:3000/api/canchas/store", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${userID}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ canchasToUpdate, idsToDelete }),
+    })
+  );
+}
+
+export async function fetchSavedCanchas(): Promise<Place[]> {
+  // get userID for api call authorization
+  const userID = await getUserId();
+  if (!userID) {
+    throw new Error("User not signed in: Cannot fetch saved canchas.");
+  }
+
+  // call to backend
+  const response = await handleResponse(
+    await fetch("http://localhost:3000/api/canchas/saved", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${userID}`,
+        "Content-Type": "application/json",
+      },
+    })
+  );
+
+  const canchas: Place[] = await response.json();
+  return canchas;
 }
