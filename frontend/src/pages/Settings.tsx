@@ -66,13 +66,13 @@ export default function Settings() {
         </div>
         <form
           action="settings"
-          className={styles.settingsWrapper}
+          className={styles.settingsForm}
           onSubmit={(e) => {
             e.preventDefault();
             handleSaveChanges();
           }}
         >
-          <label htmlFor="pfp-upload">
+          <div className={styles.pfp}>
             <input
               type="file"
               name="pfp-upload"
@@ -81,11 +81,15 @@ export default function Settings() {
               onChange={handleImageUpload}
             />
             <img
-              src={pfpSrc || "/no-image-available-vector.jpg"}
+              src={pfpSrc || "/no-pfp.jpg"}
               alt="Foto de perfil"
+              onClick={() => {
+                const fileInput = document.getElementById("pfp-upload");
+                if (fileInput) fileInput.click();
+              }}
             />
             <p>Foto de perfil</p>
-          </label>
+          </div>
           <label htmlFor="edit-name">
             <p>Nombre</p>
             <input
