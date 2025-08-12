@@ -82,7 +82,6 @@ export default function Settings() {
             />
             <img
               src={pfpSrc || "/zero-lio/no-pfp.jpg"}
-              alt="Foto de perfil"
               onClick={() => {
                 const fileInput = document.getElementById("pfp-upload");
                 if (fileInput) fileInput.click();

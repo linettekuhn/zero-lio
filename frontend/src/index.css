@@ -121,3 +121,20 @@ textarea:not([rows]) {
 :target {
   scroll-margin-block: 5ex;
 }
+
+/* When screen is wider than 440px */
+@media (min-width: 441px) {
+  body {
+    background-color: wheat;
+    max-width: none;
+    width: 100vw;
+    justify-content: center;
+  }
+
+  #root {
+    max-width: 440px;
+    width: 100%;
+    margin: 0 auto;
+    background-color: white;
+  }
+}
