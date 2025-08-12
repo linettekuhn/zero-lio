@@ -1,4 +1,4 @@
-import type { Place, Reservation } from "../types";
+import type { Place, Reservation, Profile } from "../types";
 import { getUserId } from "./authentication";
 
 async function handleResponse(response: Response) {
@@ -136,4 +136,45 @@ export async function fetchSavedCanchas(): Promise<Place[]> {
 
   const canchas: Place[] = await response.json();
   return canchas;
+}
+
+export async function fetchUserInfo(): Promise<Profile> {
+  // get userID for api call authorization
+  const userID = await getUserId();
+  if (!userID) {
+    throw new Error("User not signed in: Cannot fetch saved canchas.");
+  }
+
+  // call to backend
+  const response = await handleResponse(
+    await fetch("http://localhost:3000/user/settings/info", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${userID}`,
+        "Content-Type": "application/json",
+      },
+    })
+  );
+  const settings: Profile = await response.json();
+  return settings;
+}
+
+export async function saveUserInfo(profile: Profile) {
+  // get userID for api call authorization
+  const userID = await getUserId();
+  if (!userID) {
+    throw new Error("User not signed in: Cannot save cancha.");
+  }
+
+  // call to backend
+  await handleResponse(
+    await fetch("http://localhost:3000/user/settings/edit", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${userID}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ profile }),
+    })
+  );
 }

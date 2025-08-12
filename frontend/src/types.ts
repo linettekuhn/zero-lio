@@ -14,3 +14,10 @@ export type Place = {
   sport?: string;
   distanceMeters: number;
 };
+export type Profile = {
+  name: string;
+  lastName: string;
+  pfpSrc?: string;
+  cedula: string;
+  email: string;
+};

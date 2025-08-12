@@ -5,6 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { FirebaseError } from "firebase/app";
 import { useNavigate } from "react-router";
 import { ImEyeBlocked, ImEye } from "react-icons/im";
+import { saveUserInfo } from "./api/firestore";
 
 // map firebase errors to UI error messages
 const firebaseErrorMap: Record<string, string> = {
@@ -42,6 +43,12 @@ function App() {
       await registerUser(email, password);
       await updateUserInfo(`${name} ${lastName}`);
       toast.success("Usuario registrado");
+      await saveUserInfo({
+        name: name,
+        lastName: lastName,
+        cedula: cedula,
+        email: email,
+      });
       navigate("/canchas");
     } catch (error: unknown) {
       const err = error as FirebaseError;

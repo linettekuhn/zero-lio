@@ -32,6 +32,11 @@ const canchasRouter = require("./routes/canchas");
 app.use("/api/canchas", canchasRouter);
 console.log("canchas router started");
 
+// router for handling user settings
+const settingsRouter = require("./routes/user");
+app.use("/user/settings", settingsRouter);
+console.log("settings router started");
+
 app.listen(3000, () => {
   console.log("app listening on port 3000");
 });
