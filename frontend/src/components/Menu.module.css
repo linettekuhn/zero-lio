@@ -2,7 +2,7 @@
   position: absolute;
   left: 0;
   top: 0;
-  width: 75%;
+  width: 80%;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -11,11 +11,12 @@
   color: white;
   z-index: 2;
   border-top-right-radius: 5rem;
+  padding: 2rem 0;
 }
 
 .menu h1 {
   text-align: start;
-  margin: 3rem 2rem;
+  margin: 0 2rem;
 }
 
 .top,

@@ -49,3 +49,17 @@
   justify-content: space-between;
   gap: 1rem;
 }
+
+@media (max-height: 670px) {
+  .header h2 {
+    font-size: 1.5rem;
+  }
+  .header svg {
+    font-size: 5rem;
+  }
+
+  .content {
+    justify-content: start;
+    overflow: scroll;
+  }
+}

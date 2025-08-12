@@ -70,7 +70,7 @@ export default function MakeReview() {
               handleCommentButton();
             }}
           >
-            <h3>Comparte tus experiencias:</h3>
+            <h3>Comparte tu experiencia:</h3>
             <textarea
               name="review-text"
               id="review-text"

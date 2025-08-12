@@ -44,9 +44,9 @@
 .commentForm {
   display: flex;
   flex-direction: column;
-  padding: 3rem;
   color: white;
   border-radius: 2rem;
+  max-width: 98%;
 }
 
 .commentForm label {
@@ -71,4 +71,23 @@
   color: gold;
   margin: 1rem;
   font-size: 4rem;
+}
+
+@media (max-height: 670px) {
+  .header h2 {
+    font-size: 1.5rem;
+  }
+
+  .header svg {
+    font-size: 5rem;
+  }
+
+  .content {
+    justify-content: start;
+    overflow: scroll;
+  }
+
+  .stars {
+    font-size: 2.5rem;
+  }
 }

@@ -37,16 +37,17 @@
 }
 
 .header svg {
-  font-size: 7rem;
+  font-size: 5rem;
 }
 
 /* Make settings Form */
 .settingsForm {
   display: flex;
   flex-direction: column;
-  padding: 3rem;
+  padding: 1rem;
   color: white;
   border-radius: 2rem;
+  max-width: 98%;
 }
 
 .settingsForm label {
@@ -94,4 +95,27 @@
 
 .settingsForm p {
   font-weight: 700;
+}
+
+@media (max-height: 670px) {
+  .header h2 {
+    font-size: 1.5rem;
+  }
+
+  .header svg {
+    font-size: 5rem;
+  }
+
+  .content {
+    justify-content: start;
+    overflow: scroll;
+  }
+
+  .pfp img {
+    border-radius: 50%;
+    cursor: pointer;
+    object-fit: cover;
+    width: 100px;
+    height: 100px;
+  }
 }

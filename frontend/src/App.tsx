@@ -88,7 +88,7 @@ function App() {
     <>
       {isLoading ? <LoadingScreen /> : null}
       <div className={newUserFlag ? styles.userRegister : styles.userLogin}>
-        <div className={styles.logoVertical}>
+        <div className={styles.logo}>
           <img src="/zero-lio/icons/zero_icon.png" alt="0" />
           <h1>LÍO</h1>
         </div>

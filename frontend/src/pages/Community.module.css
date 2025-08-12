@@ -40,43 +40,26 @@
   font-size: 7rem;
 }
 
-/* Make settings Form */
-.commentForm {
-  display: flex;
-  flex-direction: column;
-  padding: 3rem;
-  color: white;
-  border-radius: 2rem;
-}
-
-.commentForm label {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-/* Comment Button */
-.commentBtn {
-  background-color: rgb(78, 134, 121);
-  color: white;
-  border: solid rgb(12, 68, 56) 1px;
-  border-radius: 0.5rem;
-  margin: 2rem 0;
-}
-
-/* Stars Rating */
-.stars {
-  display: flex;
-  justify-content: space-around;
-  color: gold;
-  margin: 1rem;
-  font-size: 4rem;
-}
-
 .comments {
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 1rem;
+  max-width: 98%;
+}
+
+@media (max-height: 670px) {
+  .header h2 {
+    font-size: 1.5rem;
+  }
+
+  .header svg {
+    font-size: 5rem;
+  }
+
+  .content {
+    justify-content: start;
+    overflow: scroll;
+  }
 }

@@ -81,7 +81,7 @@ export default function Reserve() {
         <div className={styles.content}>
           <div className={styles.header}>
             <IoMdCalendar />
-            <h2>Reservar una de tus canchas guardadas</h2>
+            <h2>Reserva tus canchas favoritas</h2>
           </div>
           <form
             className={styles.reserveForm}
