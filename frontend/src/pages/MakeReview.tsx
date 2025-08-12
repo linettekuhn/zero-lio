@@ -1,18 +1,42 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import styles from "./MakeReview.module.css";
 import { IoIosStar, IoIosStarOutline } from "react-icons/io";
-import { fetchUserInfo, postComment } from "../api/firestore";
+import {
+  fetchSavedCanchas,
+  fetchUserInfo,
+  postComment,
+} from "../api/firestore";
 import { toast, ToastContainer } from "react-toastify";
 import { IoChatboxEllipses } from "react-icons/io5";
 import { useNavigate } from "react-router";
 import LoadingScreen from "../components/LoadingScreen";
+import type { Place } from "../types";
 
 export default function MakeReview() {
   const [stars, setStars] = useState(0);
   const [text, setText] = useState("");
+  const [address, setAddress] = useState("");
+  const [cancha, setCancha] = useState<Place | undefined>(undefined);
+  const [savedCanchas, setSavedCanchas] = useState<Place[]>([]);
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const loadSavedCanchas = async () => {
+      try {
+        setLoading(true);
+        const savedCanchas = await fetchSavedCanchas();
+        setSavedCanchas(savedCanchas);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          toast.error(error.message);
+        }
+      }
+      setLoading(false);
+    };
+    loadSavedCanchas();
+  }, []);
 
   const handleCommentButton = async () => {
     try {
@@ -20,7 +44,7 @@ export default function MakeReview() {
       const userProfile = await fetchUserInfo();
       const now = new Date();
       const formattedDate = now.toISOString().split(".")[0];
-      const id = `${userProfile.cedula}-${formattedDate}`;
+      const id = `${userProfile.name}-${formattedDate}`;
       await postComment({
         id: id,
         displayName: userProfile.name + " " + userProfile.lastName,
@@ -28,6 +52,7 @@ export default function MakeReview() {
         date: now,
         stars,
         text,
+        cancha,
       });
       toast.success("Comentario publicado");
       navigate("/canchas");
@@ -51,7 +76,6 @@ export default function MakeReview() {
     }
     return starsArr;
   }
-  // TODO: attach location
   return (
     <>
       {isLoading ? <LoadingScreen /> : null}
@@ -70,6 +94,37 @@ export default function MakeReview() {
               handleCommentButton();
             }}
           >
+            <label htmlFor="reserve-address">
+              Ubicacion{" "}
+              <input
+                type="text"
+                id="reserve-address"
+                value={address}
+                list="address-options"
+                onChange={(e) => {
+                  const selectedAddress = e.target.value;
+                  setAddress(selectedAddress);
+
+                  const cancha = savedCanchas.find(
+                    (c) => c.formattedAddress === selectedAddress
+                  );
+                  if (cancha) {
+                    setCancha(cancha);
+                  }
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                  }
+                }}
+                required
+              />
+              <datalist id="address-options">
+                {savedCanchas.map((cancha) => (
+                  <option key={cancha.id} value={cancha.formattedAddress} />
+                ))}
+              </datalist>
+            </label>
             <h3>Comparte tu experiencia:</h3>
             <textarea
               name="review-text"

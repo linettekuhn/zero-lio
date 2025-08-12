@@ -16,10 +16,20 @@
   margin: 1rem;
   font-size: 3rem;
 }
-/*  */
+/* Review Info */
 .date {
   font-style: italic;
   font-size: 0.8rem;
+}
+.address {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.address svg {
+  width: 30%;
+  font-size: 2em;
+  color: red;
 }
 /* Review Text */
 .commentText {

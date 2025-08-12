@@ -1,6 +1,6 @@
 import type { Comment } from "../types";
 import styles from "./Review.module.css";
-import { IoIosStar } from "react-icons/io";
+import { IoIosPin, IoIosStar } from "react-icons/io";
 import { IoIosStarOutline } from "react-icons/io";
 
 type Props = {
@@ -39,6 +39,12 @@ export default function Review({ comment }: Props) {
           <p className={styles.date}>
             {date.toLocaleDateString("es-ES", options)}
           </p>
+          {comment.cancha ? (
+            <div className={styles.address}>
+              <IoIosPin />
+              <p>{comment.cancha.formattedAddress}</p>
+            </div>
+          ) : null}
         </div>
       </div>
       <p className={styles.commentText}>{text}</p>

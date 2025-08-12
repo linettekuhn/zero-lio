@@ -29,4 +29,5 @@ export type Comment = {
   stars: number;
   text: string;
   parentId?: number;
+  cancha?: Place;
 };
