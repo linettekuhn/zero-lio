@@ -9,7 +9,7 @@ export default function Navbar() {
         <IoIosArrowBack />
       </Link>
       <div className={styles.logoHorizontal}>
-        <img src="../icons/zero_icon.png" alt="0" />
+        <img src="/zero-lio/icons/zero_icon.png" alt="0" />
         <h1>LÍO</h1>
       </div>
     </nav>

@@ -23,7 +23,7 @@ export default function Home() {
   // searchbar query
   const [query, setQuery] = useState("");
   // saved view flag
-  const [savedView, setSavedView] = useState(true);
+  const [savedView, setSavedView] = useState(false);
   // menu open flag
   const [isMenuOpen, setMenuOpen] = useState(false);
   // map view flag

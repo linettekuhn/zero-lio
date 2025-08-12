@@ -81,7 +81,7 @@ function App() {
   return (
     <div className={newUserFlag ? styles.userRegister : styles.userLogin}>
       <div className={styles.logoVertical}>
-        <img src="../icons/zero_icon.png" alt="0" />
+        <img src="/zero-lio/icons/zero_icon.png" alt="0" />
         <h1>LÍO</h1>
       </div>
       {newUserFlag ? (

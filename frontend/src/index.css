@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap");
 @font-face {
   font-family: "Horizon";
-  src: url("../fonts/horizon.otf") format("opentype");
+  src: url("/zero-lio/fonts/horizon.otf") format("opentype");
   font-style: normal;
   font-display: swap;
 }

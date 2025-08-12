@@ -81,7 +81,7 @@ export default function Settings() {
               onChange={handleImageUpload}
             />
             <img
-              src={pfpSrc || "/no-pfp.jpg"}
+              src={pfpSrc || "/zero-lio/no-pfp.jpg"}
               alt="Foto de perfil"
               onClick={() => {
                 const fileInput = document.getElementById("pfp-upload");
