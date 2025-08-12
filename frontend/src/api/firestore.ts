@@ -1,4 +1,4 @@
-import type { Place, Reservation, Profile } from "../types";
+import type { Place, Reservation, Profile, Comment } from "../types";
 import { getUserId } from "./authentication";
 
 async function handleResponse(response: Response) {
@@ -175,6 +175,46 @@ export async function saveUserInfo(profile: Profile) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ profile }),
+    })
+  );
+}
+
+export async function postComment(comment: Comment) {
+  // get userID for api call authorization
+  const userID = await getUserId();
+  if (!userID) {
+    throw new Error("User not signed in: Cannot save cancha.");
+  }
+
+  // call to backend
+  await handleResponse(
+    await fetch("http://localhost:3000/api/comments/post", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${userID}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ comment }),
+    })
+  );
+}
+
+export async function postReply(reply: Comment) {
+  // get userID for api call authorization
+  const userID = await getUserId();
+  if (!userID) {
+    throw new Error("User not signed in: Cannot save cancha.");
+  }
+
+  // call to backend
+  await handleResponse(
+    await fetch("http://localhost:3000/api/comments/reply", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${userID}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ reply }),
     })
   );
 }

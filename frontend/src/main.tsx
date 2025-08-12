@@ -9,6 +9,7 @@ import Reserve from "./pages/Reserve.tsx";
 import Reservations from "./pages/Reservations.tsx";
 import Community from "./pages/Community.tsx";
 import Settings from "./pages/Settings.tsx";
+import MakeReview from "./pages/MakeReview.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <App /> },
@@ -41,6 +42,14 @@ const router = createBrowserRouter([
     element: (
       <RequireAuth>
         <Community />
+      </RequireAuth>
+    ),
+  },
+  {
+    path: "/comentar",
+    element: (
+      <RequireAuth>
+        <MakeReview />
       </RequireAuth>
     ),
   },

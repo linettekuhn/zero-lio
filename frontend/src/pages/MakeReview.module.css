@@ -1,0 +1,74 @@
+/* Main div */
+.makeReview {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100vh;
+  max-height: 100vh;
+}
+
+/* Page content */
+.content {
+  flex-shrink: 0;
+  flex-grow: 0;
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background-color: black;
+  color: white;
+  border-top-left-radius: 5rem;
+  gap: 2rem;
+  height: 90%;
+}
+
+/* Header */
+.header {
+  display: flex;
+  place-content: center;
+}
+
+.header h2 {
+  font-size: 2rem;
+}
+
+.header svg {
+  font-size: 7rem;
+}
+
+/* Make settings Form */
+.commentForm {
+  display: flex;
+  flex-direction: column;
+  padding: 3rem;
+  color: white;
+  border-radius: 2rem;
+}
+
+.commentForm label {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Comment Button */
+.commentBtn {
+  background-color: rgb(78, 134, 121);
+  color: white;
+  border: solid rgb(12, 68, 56) 1px;
+  border-radius: 0.5rem;
+  margin: 2rem 0;
+}
+
+/* Stars Rating */
+.stars {
+  display: flex;
+  justify-content: space-around;
+  color: gold;
+  margin: 1rem;
+  font-size: 4rem;
+}

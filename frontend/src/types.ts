@@ -21,3 +21,12 @@ export type Profile = {
   cedula: string;
   email: string;
 };
+export type Comment = {
+  id: string;
+  displayName: string;
+  pfpSrc: string;
+  date: Date;
+  stars: number;
+  text: string;
+  parentId?: number;
+};

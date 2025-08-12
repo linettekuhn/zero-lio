@@ -37,6 +37,11 @@ const settingsRouter = require("./routes/user");
 app.use("/user/settings", settingsRouter);
 console.log("settings router started");
 
+// router for handling comments
+const commentsRouter = require("./routes/comment");
+app.use("/api/comments", commentsRouter);
+console.log("settings router started");
+
 app.listen(3000, () => {
   console.log("app listening on port 3000");
 });
