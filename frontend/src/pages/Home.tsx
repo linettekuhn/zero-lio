@@ -83,7 +83,7 @@ export default function Home() {
     handleCanchasChange(newSavedCanchas);
   };
 
-  // function to search for nearby courts using google maps
+  // function to search for nearby courts using overpass ap
   const searchNearbyCourts = async () => {
     // default location
     const defaultLoc: L.LatLngTuple = [18.4549376, -69.9400192];
