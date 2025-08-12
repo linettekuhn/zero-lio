@@ -15,7 +15,7 @@ async function handleResponse(response: Response) {
 }
 
 export async function reverseGeocode(lat: number, lng: number) {
-  const url = `http://localhost:3000/api/search/reverse-geocode?lat=${encodeURIComponent(
+  const url = `https://zero-lio-backend.onrender.com/api/search/reverse-geocode?lat=${encodeURIComponent(
     lat
   )}&lon=${encodeURIComponent(lng)}`;
 
