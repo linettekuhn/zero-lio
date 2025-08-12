@@ -1,6 +1,7 @@
 import { useEffect, useState, type JSX } from "react";
 import { auth, onAuthStateChanged } from "./api/authentication";
 import { useNavigate } from "react-router";
+import LoadingScreen from "./components/LoadingScreen";
 
 // wrapper for ensuring authentication when accessing routes
 export default function RequireAuth({ children }: { children: JSX.Element }) {
@@ -32,7 +33,7 @@ export default function RequireAuth({ children }: { children: JSX.Element }) {
 
   // only return children if authenticated
   if (loading) {
-    return <p>Cargando...</p>;
+    return <LoadingScreen />;
   } else {
     return authenticated ? children : null;
   }

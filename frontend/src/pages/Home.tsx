@@ -16,6 +16,7 @@ import Menu from "../components/Menu";
 import type { Place } from "../types";
 import { reverseGeocode } from "../api/geocode";
 import { fetchSavedCanchas, saveCanchas } from "../api/firestore";
+import LoadingScreen from "../components/LoadingScreen";
 
 export default function Home() {
   // search results
@@ -32,6 +33,8 @@ export default function Home() {
   const [savedCanchas, setSavedCanchas] = useState<Place[]>([]);
   // original saved canchas
   const [originalSavedCanchas, setOriginalSavedCanchas] = useState<Place[]>([]);
+  // loading flag
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     const loadSavedCanchas = async () => {
@@ -43,6 +46,7 @@ export default function Home() {
           toast.error(error.message);
         }
       }
+      setLoading(false);
     };
     loadSavedCanchas();
   }, []);
@@ -114,6 +118,7 @@ export default function Home() {
       });
     };
 
+    setLoading(true);
     const userLoc: L.LatLngTuple = await getUserLocation();
 
     // use the overpass search api
@@ -126,22 +131,24 @@ export default function Home() {
 
       // create query
       const query = `
-      [out:json];
-      (
-        node["leisure"="pitch"](around:${radius},${userLoc[0]},${userLoc[1]});
-        way["leisure"="pitch"](around:${radius},${userLoc[0]},${userLoc[1]});
-        relation["leisure"="pitch"](around:${radius},${userLoc[0]},${userLoc[1]});
-      );
-      out center qt ${maxResults};
-    `;
-
+        [out:json];
+        (
+          nwr["leisure"="pitch"](around:${radius},${userLoc[0]},${userLoc[1]});
+        );
+        out center qt ${maxResults};
+      `;
+      console.log("calling overpass api");
       // call api
       const response = await fetch("https://overpass-api.de/api/interpreter", {
         method: "POST",
+        headers: {
+          "Content-Type": "text/plain",
+        },
         body: query,
       });
 
       const data = await response.json();
+      console.log(data);
 
       if (data && data.elements.length > 0) {
         const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
@@ -210,9 +217,12 @@ export default function Home() {
       toast.error("Error buscando canchas.");
       setResults([]);
     }
+
+    setLoading(false);
   };
   return (
     <>
+      {isLoading ? <LoadingScreen /> : null}
       <div className={styles.nearbyCourts}>
         {isMenuOpen && (
           <div

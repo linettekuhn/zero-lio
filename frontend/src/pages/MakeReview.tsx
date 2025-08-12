@@ -5,13 +5,18 @@ import { IoIosStar, IoIosStarOutline } from "react-icons/io";
 import { fetchUserInfo, postComment } from "../api/firestore";
 import { toast, ToastContainer } from "react-toastify";
 import { IoChatboxEllipses } from "react-icons/io5";
+import { useNavigate } from "react-router";
+import LoadingScreen from "../components/LoadingScreen";
 
 export default function MakeReview() {
   const [stars, setStars] = useState(0);
   const [text, setText] = useState("");
+  const [isLoading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleCommentButton = async () => {
     try {
+      setLoading(true);
       const userProfile = await fetchUserInfo();
       const now = new Date();
       const formattedDate = now.toISOString().split(".")[0];
@@ -25,11 +30,13 @@ export default function MakeReview() {
         text,
       });
       toast.success("Comentario publicado");
+      navigate("/canchas");
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast.error(error.message);
       }
     }
+    setLoading(false);
   };
 
   function renderStars(starsCount: number) {
@@ -46,38 +53,41 @@ export default function MakeReview() {
   }
   // TODO: attach location
   return (
-    <div className={styles.makeReview}>
-      <Navbar />
-      <div className={styles.content}>
-        <div className={styles.header}>
-          <IoChatboxEllipses />
-          <h2>Comentar</h2>
-        </div>
-        <form
-          className={styles.commentForm}
-          action="comment"
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleCommentButton();
-          }}
-        >
-          <h3>Comparte tus experiencias:</h3>
-          <textarea
-            name="review-text"
-            id="review-text"
-            value={text}
-            onChange={(e) => {
-              setText(e.target.value);
+    <>
+      {isLoading ? <LoadingScreen /> : null}
+      <div className={styles.makeReview}>
+        <Navbar />
+        <div className={styles.content}>
+          <div className={styles.header}>
+            <IoChatboxEllipses />
+            <h2>Comentar</h2>
+          </div>
+          <form
+            className={styles.commentForm}
+            action="comment"
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleCommentButton();
             }}
-            required
-          ></textarea>
-          <div className={styles.stars}>{renderStars(stars)}</div>
-          <button className={styles.commentBtn} type="submit">
-            Publicar Comentario
-          </button>
-        </form>
+          >
+            <h3>Comparte tus experiencias:</h3>
+            <textarea
+              name="review-text"
+              id="review-text"
+              value={text}
+              onChange={(e) => {
+                setText(e.target.value);
+              }}
+              required
+            ></textarea>
+            <div className={styles.stars}>{renderStars(stars)}</div>
+            <button className={styles.commentBtn} type="submit">
+              Publicar Comentario
+            </button>
+          </form>
+        </div>
+        <ToastContainer />
       </div>
-      <ToastContainer />
-    </div>
+    </>
   );
 }
