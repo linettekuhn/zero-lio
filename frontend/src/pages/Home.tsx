@@ -21,8 +21,8 @@ import LoadingScreen from "../components/LoadingScreen";
 export default function Home() {
   // search results
   const [results, setResults] = useState<Place[]>([]);
-  // searchbar query
-  const [query, setQuery] = useState("");
+  // selected sport filter
+  const [selectedSport, setSelectedSport] = useState("");
   // saved view flag
   const [savedView, setSavedView] = useState(false);
   // menu open flag
@@ -35,6 +35,44 @@ export default function Home() {
   const [originalSavedCanchas, setOriginalSavedCanchas] = useState<Place[]>([]);
   // loading flag
   const [isLoading, setLoading] = useState(false);
+
+  // translations for autofill searchbox
+  const sportTranslations = new Map([
+    ["soccer", "Futbol"],
+    ["american_football", "Futbol Americano"],
+    ["rugby", "Rugby"],
+    ["baseball", "Beisbol"],
+    ["basketball", "Baloncesto"],
+    ["volleyball", "Voleibol"],
+    ["beachvolleyball", "Voleibol de Playa"],
+    ["handball", "Balonmano"],
+    ["cricket", "Criquet"],
+    ["hockey", "Hockey"],
+    ["ice_hockey", "Hockey sobre Hielo"],
+    ["australian_football", "Futbol Australiano"],
+    ["gaelic_games", "Juegos Gaelicos"],
+    ["tennis", "Tenis"],
+    ["badminton", "Badminton"],
+    ["table_tennis", "Tenis de Mesa"],
+    ["squash", "Squash"],
+    ["padel", "Padel"],
+    ["athletics", "Atletismo"],
+    ["swimming", "Natacion"],
+    ["skateboarding", "Skateboarding"],
+    ["climbing", "Escalada"],
+    ["equestrian", "Equitacion"],
+    ["archery", "Tiro con Arco"],
+    ["bowling", "Bolos"],
+    ["shooting", "Tiro al Blanco"],
+    ["cycling", "Ciclismo"],
+    ["gymnastics", "Gimnasia"],
+    ["fitness", "Gimnasio"],
+    ["golf", "Golf"],
+    ["water_polo", "Waterpolo"],
+    ["futsal", "Futbol Sala"],
+    ["ice_skating", "Patinaje sobre Hielo"],
+    ["horse_racing", "Carreras de Caballos"],
+  ]);
 
   useEffect(() => {
     const loadSavedCanchas = async () => {
@@ -121,6 +159,15 @@ export default function Home() {
     setLoading(true);
     const userLoc: L.LatLngTuple = await getUserLocation();
 
+    // get sport filter (if any) and match it to overpass sport tags
+    let sportFilter = "";
+    for (const [key, value] of sportTranslations.entries()) {
+      if (value.toLowerCase() === selectedSport.toLowerCase()) {
+        sportFilter = key;
+        break;
+      }
+    }
+
     // use the overpass search api
     try {
       // define search radius (meters)
@@ -130,7 +177,15 @@ export default function Home() {
       const maxResults = 5;
 
       // create query
-      const query = `
+      const query = sportFilter
+        ? `
+        [out:json];
+        (
+          nwr["leisure"="pitch"]["sport"="${sportFilter}"](around:${radius},${userLoc[0]},${userLoc[1]});
+        );
+        out center qt ${maxResults};
+      `
+        : `
         [out:json];
         (
           nwr["leisure"="pitch"](around:${radius},${userLoc[0]},${userLoc[1]});
@@ -240,9 +295,10 @@ export default function Home() {
               type="text"
               name="query"
               placeholder="Buscar canchas..."
-              value={query}
+              value={selectedSport}
+              list="sport-options"
               onChange={(e) => {
-                setQuery(e.target.value);
+                setSelectedSport(e.target.value);
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -250,6 +306,11 @@ export default function Home() {
                 }
               }}
             />
+            <datalist id="sport-options">
+              {Array.from(sportTranslations.values()).map((sport) => (
+                <option key={sport} value={sport} />
+              ))}
+            </datalist>
             <button
               className={styles.searchBtn}
               onClick={() => searchNearbyCourts()}
