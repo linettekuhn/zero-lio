@@ -3,8 +3,12 @@ import styles from "./Review.module.css";
 import { IoIosStar } from "react-icons/io";
 import { IoIosStarOutline } from "react-icons/io";
 
-export default function Review(comment: Comment) {
-  const { displayName, pfpSrc, date, stars, text } = comment;
+type Props = {
+  comment: Comment;
+};
+
+export default function Review({ comment }: Props) {
+  const { displayName, date, stars, text } = comment;
   const options: Intl.DateTimeFormatOptions = {
     weekday: "long",
     year: "numeric",
@@ -30,16 +34,15 @@ export default function Review(comment: Comment) {
   return (
     <div className={styles.review}>
       <div className={styles.user}>
-        <img src={pfpSrc || "/no-pfp.jpg"} alt="Foto de perfil" />
         <div className={styles.info}>
           <h4 className={styles.name}>{displayName}</h4>
           <p className={styles.date}>
             {date.toLocaleDateString("es-ES", options)}
           </p>
         </div>
-        <p className={styles.commentText}>{text}</p>
-        <div className={styles.stars}>{renderStars(stars)}</div>
       </div>
+      <p className={styles.commentText}>{text}</p>
+      <div className={styles.stars}>{renderStars(stars)}</div>
     </div>
   );
 }

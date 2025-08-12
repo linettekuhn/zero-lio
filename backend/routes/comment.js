@@ -44,4 +44,22 @@ router.post("/reply", authUser, async (req, res) => {
   }
 });
 
+router.get("/all", authUser, async (req, res) => {
+  try {
+    // get comments collection from firestore database
+    const commentsRef = database.collection("comments");
+
+    const snapshot = await commentsRef.get();
+    const comments = [];
+    snapshot.forEach((doc) => {
+      comments.push(doc.data());
+    });
+
+    // return retrieved comment objects
+    res.status(200).json(comments);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to post comment." });
+  }
+});
+
 module.exports = router;
