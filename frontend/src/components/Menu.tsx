@@ -3,7 +3,6 @@ import styles from "./Menu.module.css";
 import { IoMdCalendar } from "react-icons/io";
 import { IoTicket } from "react-icons/io5";
 import { IoChatboxEllipses } from "react-icons/io5";
-import { IoIosNotifications } from "react-icons/io";
 import { IoPeople } from "react-icons/io5";
 import { IoIosCog } from "react-icons/io";
 
@@ -19,10 +18,6 @@ export default function Menu() {
         <button className={styles.menuButton}>
           <IoTicket />
           <Link to={"/reservaciones"}>Mis Reservaciones</Link>
-        </button>
-        <button className={styles.menuButton}>
-          <IoIosNotifications />
-          <Link to={"/notificaciones"}>Notificaciones</Link>
         </button>
       </div>
       <div className={styles.bottom}>
