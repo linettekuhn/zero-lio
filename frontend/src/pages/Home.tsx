@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import { MapContainer, TileLayer, useMap, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
-import "leaflet/dist/leaflet.css";
-import "leaflet-geosearch/dist/geosearch.css";
+import icon from "leaflet/dist/images/marker-icon.png";
+import iconRetina from "leaflet/dist/images/marker-icon-2x.png";
+import shadow from "leaflet/dist/images/marker-shadow.png";
 import Cancha from "../components/Cancha";
 import styles from "./Home.module.css";
 import { IoSearch } from "react-icons/io5";
@@ -17,6 +18,13 @@ import type { Place } from "../types";
 import { reverseGeocode } from "../api/geocode";
 import { fetchSavedCanchas, saveCanchas } from "../api/firestore";
 import LoadingScreen from "../components/LoadingScreen";
+
+// fix missing marker icon
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: iconRetina,
+  iconUrl: icon,
+  shadowUrl: shadow,
+});
 
 export default function Home() {
   // search results
