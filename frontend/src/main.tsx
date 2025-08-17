@@ -25,7 +25,7 @@ L.Icon.Default.mergeOptions({
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <HashRouter basename="/zero-lio">
+    <HashRouter>
       <Routes>
         <Route path="/" element={<App />} />
         <Route
