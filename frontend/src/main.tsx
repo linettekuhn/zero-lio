@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router";
+import { HashRouter, Routes, Route } from "react-router";
 import "./index.css";
 import App from "./App.tsx";
 import Home from "./pages/Home.tsx";
@@ -23,63 +23,60 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
-const router = createBrowserRouter(
-  [
-    { path: "/", element: <App /> },
-    {
-      path: "/canchas",
-      element: (
-        <RequireAuth>
-          <Home />
-        </RequireAuth>
-      ),
-    },
-    {
-      path: "/reservar",
-      element: (
-        <RequireAuth>
-          <Reserve />
-        </RequireAuth>
-      ),
-    },
-    {
-      path: "/reservaciones",
-      element: (
-        <RequireAuth>
-          <Reservations />
-        </RequireAuth>
-      ),
-    },
-    {
-      path: "/comunidad",
-      element: (
-        <RequireAuth>
-          <Community />
-        </RequireAuth>
-      ),
-    },
-    {
-      path: "/comentar",
-      element: (
-        <RequireAuth>
-          <MakeReview />
-        </RequireAuth>
-      ),
-    },
-    {
-      path: "/config",
-      element: (
-        <RequireAuth>
-          <Settings />
-        </RequireAuth>
-      ),
-    },
-  ],
-  { basename: "/zero-lio" }
-);
-
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <HashRouter basename="/zero-lio">
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route
+          path="/canchas"
+          element={
+            <RequireAuth>
+              <Home />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/reservar"
+          element={
+            <RequireAuth>
+              <Reserve />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/reservaciones"
+          element={
+            <RequireAuth>
+              <Reservations />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/comunidad"
+          element={
+            <RequireAuth>
+              <Community />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/comentar"
+          element={
+            <RequireAuth>
+              <MakeReview />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/config"
+          element={
+            <RequireAuth>
+              <Settings />
+            </RequireAuth>
+          }
+        />
+      </Routes>
+    </HashRouter>
   </StrictMode>
 );
