@@ -46,17 +46,14 @@ export async function saveReservations(
 
   // call to backend
   await handleResponse(
-    await fetch(
-      "https://zero-lio-backend.onrender.com/api/reservations/store",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${userID}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ reservationsToUpdate, idsToDelete }),
-      }
-    )
+    await fetch("https://api.zero-lio.linettekuhn.com/api/reservations/store", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${userID}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ reservationsToUpdate, idsToDelete }),
+    })
   );
 }
 
@@ -69,16 +66,13 @@ export async function fetchSavedReservations(): Promise<Reservation[]> {
 
   // call to backend
   const response = await handleResponse(
-    await fetch(
-      "https://zero-lio-backend.onrender.com/api/reservations/saved",
-      {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${userID}`,
-          "Content-Type": "application/json",
-        },
-      }
-    )
+    await fetch("https://api.zero-lio.linettekuhn.com/api/reservations/saved", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${userID}`,
+        "Content-Type": "application/json",
+      },
+    })
   );
 
   const reservations: Reservation[] = await response.json();
@@ -111,7 +105,7 @@ export async function saveCanchas(newCanchas: Place[], oldCanchas: Place[]) {
 
   // call to backend
   await handleResponse(
-    await fetch("https://zero-lio-backend.onrender.com/api/canchas/store", {
+    await fetch("https://api.zero-lio.linettekuhn.com/api/canchas/store", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${userID}`,
@@ -131,7 +125,7 @@ export async function fetchSavedCanchas(): Promise<Place[]> {
 
   // call to backend
   const response = await handleResponse(
-    await fetch("https://zero-lio-backend.onrender.com/api/canchas/saved", {
+    await fetch("https://api.zero-lio.linettekuhn.com/api/canchas/saved", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${userID}`,
@@ -153,7 +147,7 @@ export async function fetchUserInfo(): Promise<Profile> {
 
   // call to backend
   const response = await handleResponse(
-    await fetch("https://zero-lio-backend.onrender.com/user/settings/info", {
+    await fetch("https://api.zero-lio.linettekuhn.com/user/settings/info", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${userID}`,
@@ -174,7 +168,7 @@ export async function saveUserInfo(profile: Profile) {
 
   // call to backend
   await handleResponse(
-    await fetch("https://zero-lio-backend.onrender.com/user/settings/edit", {
+    await fetch("https://api.zero-lio.linettekuhn.com/user/settings/edit", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${userID}`,
@@ -194,7 +188,7 @@ export async function postComment(comment: Comment) {
 
   // call to backend
   await handleResponse(
-    await fetch("https://zero-lio-backend.onrender.com/api/comments/post", {
+    await fetch("https://api.zero-lio.linettekuhn.com/api/comments/post", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${userID}`,
@@ -214,7 +208,7 @@ export async function postReply(reply: Comment) {
 
   // call to backend
   await handleResponse(
-    await fetch("https://zero-lio-backend.onrender.com/api/comments/reply", {
+    await fetch("https://api.zero-lio.linettekuhn.com/api/comments/reply", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${userID}`,
@@ -233,7 +227,7 @@ export async function fetchAllComments(): Promise<Comment[]> {
   }
   // call to backend
   const response = await handleResponse(
-    await fetch("https://zero-lio-backend.onrender.com/api/comments/all", {
+    await fetch("https://api.zero-lio.linettekuhn.com/api/comments/all", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${userID}`,
