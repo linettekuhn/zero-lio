@@ -1,4 +1,5 @@
 // include modules to project
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -42,5 +43,9 @@ const commentsRouter = require("./routes/comment");
 app.use("/api/comments", commentsRouter);
 console.log("settings router started");
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`server listening on port ${PORT}`));
+
+app.get("/", (req, res) => {
+  res.send("ZeroLio backend is running!");
+});
